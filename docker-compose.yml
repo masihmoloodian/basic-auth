@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+  auth_api:
+    container_name: auth_api
+    build: .
+    restart: always
+    depends_on:
+      - auth_postgres
+    ports:
+      - "3000:3000"
+    networks:
+      - auth_network
+
+  auth_postgres:
+    container_name: auth_postgres
+    image: postgres:12.2-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db_auth
+    networks:
+      - auth_network
+
+networks:
+  auth_network:
